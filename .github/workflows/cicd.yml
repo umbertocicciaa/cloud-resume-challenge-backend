@@ -36,6 +36,9 @@ jobs:
           entry_point: read
           source_dir: cloud-resume-api
           region: europe-west9
+          environment_variables: |
+            DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+            COLLECTION_NAME=${{ secrets.COLLECTION_NAME }}
 
       - name: deploy cloud function post
         id: deploy-post
@@ -47,3 +50,7 @@ jobs:
           entry_point: update_visitor
           source_dir: cloud-resume-post
           region: europe-west9
+          environment_variables: |
+            DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+            COLLECTION_NAME=${{ secrets.COLLECTION_NAME }}
+            DOCUMENT_ID=${{ secrets.DOCUMENT_ID }}
