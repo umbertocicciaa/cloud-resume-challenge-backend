@@ -33,8 +33,9 @@ jobs:
           name: cloud-resume-api
           runtime: python312
           project_id: ${{ secrets.PROJECT_ID }}
-          entry_point: main
+          entry_point: read
           source_dir: cloud-resume-api
+          region: europe-west9
 
       - name: deploy cloud function post
         id: deploy-post
@@ -43,5 +44,6 @@ jobs:
           name: cloud-resume-post
           runtime: python312
           project_id: ${{ secrets.PROJECT_ID }}
-          entry_point: main
+          entry_point: update_visitor
           source_dir: cloud-resume-post
+          region: europe-west9
