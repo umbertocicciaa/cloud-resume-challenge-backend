@@ -1,10 +1,47 @@
-name: CI
+name: CD
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: "read"
+      id-token: "write"
+
     steps:
-      - uses: actions/checkout@v4
+      - name: "Checkout"
+        uses: actions/checkout@v2
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          version: ">= 363.0.0"
+
+      - name: deploy cloud function api
+        id: deploy-get
+        uses: google-github-actions/deploy-cloud-functions@main
+        with:
+          name: cloud-resume-api
+          runtime: python312
+          project_id: ${{ secrets.PROJECT_ID }}
+          entry_point: main
+          source_dir: cloud-resume-api
+
+      - name: deploy cloud function post
+        id: deploy-post
+        uses: google-github-actions/deploy-cloud-functions@main
+        with:
+          name: cloud-resume-post
+          runtime: python312
+          project_id: ${{ secrets.PROJECT_ID }}
+          entry_point: main
+          source_dir: cloud-resume-post
