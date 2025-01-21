@@ -9,4 +9,4 @@ This repository contains the backend code for the Cloud Resume Challenge. The ba
 ## Acknowledgments
 
 - Thanks to the Cloud Resume Challenge community for the inspiration and support.
-- Special thanks to [Your Name] for the guidance and mentorship.
+
